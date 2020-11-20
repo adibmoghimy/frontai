@@ -1,53 +1,45 @@
 import React, { useState } from 'react';
-import Link from '@material-ui/core/Link';
 import styles from './RegisterStyle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import axios from 'axios';
+import { History } from 'history';
 
-const Register = () => {
-  // const validateRegister = (a: any) => {
-  //   console.log("TEst")
-  //   const requestOptions = {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json'},
-  //     body: JSON.stringify({ 
-  //         "username": "string43",
-  //         "password": "string",
-  //         "email": "user@example.com",
-  //         "first_name": "string",
-  //         "last_name": "string"
-  //      })
-  // };
-  // fetch('http://localhost:8000/api/register/', requestOptions)
-  //     .then((response: any) => {
-  //       console.log(response.body)
-  //     })
-  //     .catch(() => console.log("Can’t access " +  " response. Blocked by browser?"))
-  // }
+type Props = {
+  history: History;
+}
 
-  const validateRegister = (a: any) => {
-    console.log("TEst")
-    const requestOptions = {
-      method: 'GET',
-      // headers: { 'Content-Type': 'application/json'},
-      // body: JSON.stringify({ 
-      //     "username": "string43",
-      //     "password": "string",
-      //     "email": "user@example.com",
-      //     "first_name": "string",
-      //     "last_name": "string"
-      //  })
-  };
-  axios.get(`http://localhost:8000/hello/`)
-      .then((response: any) => {
-        console.log(response)
-      })
-      .catch((err) => console.log("Error" + err))
-  }
-
+const Register = ({ history }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConf, setPasswordConf] = useState('');
+  const [username, setUsername ] = useState('');
+  const [firstname, setFirstname ] = useState('');
+  const [lastname, setLastname ] = useState('');
+
+  const validateRegister = (a: any) => {
+    let data = { 
+          "username": "string43dsasd",
+          "password": "stringfdsdf",
+          "email": "userfdsdf@example.com",
+          "first_name": "stringdsasd",
+          "last_name": "stringfdsdf"
+    }
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/api/register/',
+      headers: {'accept':'application/json', 'Content-Type':'application/json'}, 
+      data: {
+          "username": `${username}`,
+          "password": `${password}`,
+          "email": `${email}`,
+          "first_name": `${firstname}`,
+          "last_name": `${lastname}`
+      }
+    }).then(resp => {
+      console.log("Resss", resp);
+      history.push('/');
+    })
+  }
 
     return(
         <div className="register-box">
@@ -68,6 +60,36 @@ const Register = () => {
                   value={email}
                   onChange={event => setEmail(event.target.value)}
                   />
+              </div>
+
+              <div className="input-group mb-3">
+                <input 
+                  type="username" 
+                  className="form-control" 
+                  placeholder="Username" 
+                  value={username}
+                  onChange={event => setUsername(event.target.value)}
+                />
+              </div>
+
+              <div className="input-group mb-3">
+                <input 
+                  type="firstname" 
+                  className="form-control" 
+                  placeholder="First name" 
+                  value={firstname}
+                  onChange={event => setFirstname(event.target.value)}
+                />
+              </div>
+
+              <div className="input-group mb-3">
+                <input 
+                  type="lastname" 
+                  className="form-control" 
+                  placeholder="Last name" 
+                  value={lastname}
+                  onChange={event => setLastname(event.target.value)}
+                />
               </div>
               
               <div className="input-group mb-3">
